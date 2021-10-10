@@ -50,7 +50,7 @@ function App() {
           }}
         />
         <Stack.Screen
-          name="Home"
+          name="Root"
           component={BottomTabNavigation}
           options={{
             header: () => null,

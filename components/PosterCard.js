@@ -3,15 +3,19 @@ import React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import gamePoster from "../assets/gamePoster.jpg";
 
-export function PosterCard() {
+export function PosterCard({ data }) {
   return (
     <View style={styles.posterCard}>
-      <Image key={new Date()} source={gamePoster} style={styles.poster} />
+      <Image
+        key={new Date()}
+        source={{ uri: data.posterURL }}
+        style={styles.poster}
+      />
       <View style={styles.bottomCard}>
-      <Text style={styles.title}>The Division</Text>
+        <Text style={styles.title}>{data.title}</Text>
         <View style={styles.ratingsContainer}>
           <FontAwesome name="star" color="#FBC53A" size={15} />
-          <Text style={styles.ratings}>8.5</Text>
+          <Text style={styles.ratings}>{data.ratings}</Text>
         </View>
       </View>
     </View>
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2d2d2d",
     borderBottomRightRadius: 5,
     padding: 5,
-    borderBottomLeftRadius: 5
+    borderBottomLeftRadius: 5,
   },
   ratingsContainer: {
     // paddingTop: 10,
@@ -46,6 +50,6 @@ const styles = StyleSheet.create({
   title: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 });

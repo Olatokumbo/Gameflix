@@ -1,15 +1,8 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import { Searchbar } from "react-native-paper";
-import { PosterCard } from "../components/PosterCard";
-import { SearchPosterCard } from "../components/SearchPosterCard";
-
+import { SearchPosterCard } from "../../components/SearchPosterCard";
+import styles from "./styles";
 export default function Search({ navigation }) {
   return (
     <View style={styles.search}>
@@ -39,27 +32,3 @@ export default function Search({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  search: {
-    flex: 1,
-    backgroundColor: "black",
-    paddingTop: "13%",
-  },
-  topSection: {
-    paddingBottom: 10,
-  },
-  searchBar: {
-    paddingVertical: 2,
-    marginBottom: 10,
-  },
-  title: {
-    color: "white",
-    fontSize: 30,
-  },
-  searchText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 19,
-  },
-});
