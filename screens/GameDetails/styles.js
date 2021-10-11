@@ -61,4 +61,7 @@ export default StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
   },
+  flatList: {
+    transform: [{ scaleY: -1 }],
+  },
 });

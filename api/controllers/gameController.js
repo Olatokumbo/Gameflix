@@ -11,14 +11,13 @@ const addGame = (req, res) => {
     posterURL,
     coverURL,
     ratings,
-    comments: [],
+    reviews: [],
   });
 
   newGame.save().then((user) => {
     res.status(200).json(user);
   });
 };
-
 
 //////LIST GAMES BY GENRE
 const genreList = (req, res) => {
@@ -29,7 +28,6 @@ const genreList = (req, res) => {
     res.status(200).json(list);
   });
 };
-
 
 //////GET GAME INFO
 const gameInfo = (req, res) => {

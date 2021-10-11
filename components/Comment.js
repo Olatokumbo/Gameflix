@@ -4,22 +4,17 @@ import { Avatar } from "react-native-paper";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import profile from "../assets/profile.jpg";
 
-export default function Comment() {
+export default function Comment({ data }) {
   return (
     <View style={styles.comment}>
       <Avatar.Icon size={50} icon="account-circle" />
       <View style={styles.mainContent}>
         <View style={styles.commentHeader}>
-          <Text style={styles.name}>John Doe</Text>
+          <Text style={styles.name}>{data.userId}</Text>
           <FontAwesome name="star" color="#FBC53A" size={15} />
-          <Text style={styles.ratings}>5.5</Text>
+          <Text style={styles.ratings}>{data.rating}</Text>
         </View>
-        <Text style={styles.message}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </Text>
+        <Text style={styles.message}>{data.comment}</Text>
       </View>
     </View>
   );
@@ -27,6 +22,7 @@ export default function Comment() {
 
 const styles = StyleSheet.create({
   comment: {
+    // transform: [{ scaleY: -1 }],
     borderTopWidth: 2,
     borderColor: "#2d2d2d",
     flexDirection: "row",
@@ -40,7 +36,7 @@ const styles = StyleSheet.create({
   ratings: {
     color: "white",
     marginLeft: 5,
-    color: "#FBC53A"
+    color: "#FBC53A",
   },
   mainContent: {
     marginLeft: 15,

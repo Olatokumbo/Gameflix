@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const auth = require("./routes/auth");
 const game = require("./routes/game");
+const review = require("./routes/review");
 require("dotenv").config();
 
 const PORT = 8000;
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/auth", auth);
 app.use("/game", game);
+app.use("/review", review);
 
 app.get("/ping", (req, res) => {
   res.status(200).json({

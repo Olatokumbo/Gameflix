@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Image, Text, TouchableOpacity, FlatList } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Comment from "../../components/Comment";
 import mainPoster from "../../assets/defaultcover.png";
@@ -79,17 +79,12 @@ export default function GameDetails({ route, navigation }) {
           </TouchableOpacity>
           <Text style={styles.reviewHeader}>Reviews</Text>
         </View>
-        <ScrollView>
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
-        </ScrollView>
+        <FlatList
+          // style={styles.flatList}
+          data={gameDetails.reviews}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => <Comment data={item} />}
+        />
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>Add Review</Dialog.Title>
