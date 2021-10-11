@@ -29,7 +29,7 @@ export default function GameRow({ navigation, genre }) {
         renderItem={({ item, index }) => (
           <TouchableOpacity
             key={index}
-            onPress={() => navigation.navigate("Game Info", { data: item })}
+            onPress={() => navigation.navigate("Game Info", { id: item._id })}
           >
             <PosterCard data={item} />
           </TouchableOpacity>

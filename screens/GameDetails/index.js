@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image, Text, TouchableOpacity, ScrollView } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Comment from "../../components/Comment";
-import mainPoster from "../../assets/mainPoster1.jpg";
+import mainPoster from "../../assets/defaultcover.png";
 import {
   Button,
   Paragraph,
@@ -12,33 +12,66 @@ import {
   TextInput,
 } from "react-native-paper";
 import { Rating } from "react-native-elements";
+import axios from "axios";
 import styles from "./styles";
 
 import logo from "../../assets/glogo.png";
-export default function GameDetails({ route: { params } }) {
-  // console.log(params.message);
+export default function GameDetails({ route, navigation }) {
+  const id = route.params.id;
+  const [gameDetails, setGameDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-
   const showDialog = () => setVisible(true);
-
   const hideDialog = () => setVisible(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://192.168.137.1:8000/game/${id}`)
+      .then((response) => {
+        setGameDetails(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        navigation.goBack();
+      });
+    // const fetchData = async () => {
+    //   try {
+    //     let data = await fetch(`http://192.168.137.1:8000/game/${id}`);
+    //     data = await data.json();
+    //     setGameDetails(data);
+    //     setLoading(false);
+    //   } catch (error) {
+    //     navigation.goBack();
+    //   }
+    // };
+    // fetchData();
+  }, [id]);
   return (
     <Provider>
       <View style={styles.gameDetails}>
-        <Image
-          source={mainPoster}
-          style={styles.mainPoster}
-          resizeMode="cover"
-        />
+        {loading ? (
+          <Image
+            source={mainPoster}
+            style={styles.mainPoster}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={{ uri: gameDetails.coverURL }}
+            style={styles.mainPoster}
+            resizeMode="cover"
+          />
+        )}
         <View style={styles.main}>
           <View style={styles.genreMain}>
             <Image source={logo} style={styles.logo} />
-            <Text style={styles.genreText}>Shooter</Text>
+            <Text style={styles.genreText}>{gameDetails.genre}</Text>
           </View>
-          <Text style={styles.title}>Call of Duty Black Ops</Text>
+          <Text style={styles.title}>{gameDetails.title}</Text>
           <View style={styles.ratingsContainer}>
             <FontAwesome name="star" color="#FBC53A" size={20} />
-            <Text style={styles.ratings}>8.5</Text>
+            <Text style={styles.ratings}>{gameDetails.ratings}</Text>
           </View>
           <TouchableOpacity onPress={showDialog} style={styles.addReview}>
             <FontAwesome name="plus" color="black" size={20} />

@@ -26,7 +26,7 @@ export default function Home({ navigation }) {
   //   fetchData();
   // }, [navigation]);
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: "black" }}>
       <View style={styles.main}>
         <View style={{ position: "relative" }}>
           <Image
