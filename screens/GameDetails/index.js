@@ -16,6 +16,7 @@ import axios from "axios";
 import styles from "./styles";
 
 import logo from "../../assets/glogo.png";
+import getRatings from "../../utils/getRatings";
 export default function GameDetails({ route, navigation }) {
   const id = route.params.id;
   const [gameDetails, setGameDetails] = useState([]);
@@ -35,17 +36,6 @@ export default function GameDetails({ route, navigation }) {
       .catch((err) => {
         navigation.goBack();
       });
-    // const fetchData = async () => {
-    //   try {
-    //     let data = await fetch(`http://192.168.137.1:8000/game/${id}`);
-    //     data = await data.json();
-    //     setGameDetails(data);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     navigation.goBack();
-    //   }
-    // };
-    // fetchData();
   }, [id]);
   return (
     <Provider>
@@ -71,13 +61,21 @@ export default function GameDetails({ route, navigation }) {
           <Text style={styles.title}>{gameDetails.title}</Text>
           <View style={styles.ratingsContainer}>
             <FontAwesome name="star" color="#FBC53A" size={20} />
-            <Text style={styles.ratings}>{gameDetails.ratings}</Text>
+            <Text style={styles.ratings}>
+              {gameDetails.reviews && getRatings(gameDetails.reviews)}
+            </Text>
           </View>
           <TouchableOpacity onPress={showDialog} style={styles.addReview}>
             <FontAwesome name="plus" color="black" size={20} />
             <Text style={styles.addReviewText}>Add Review</Text>
           </TouchableOpacity>
-          <Text style={styles.reviewHeader}>Reviews</Text>
+          <Text style={styles.reviewHeader}>
+            {gameDetails?.reviews &&
+              (gameDetails?.reviews.length > 0
+                ? gameDetails?.reviews.length
+                : "No")}{" "}
+            Review(s)
+          </Text>
         </View>
         <FlatList
           // style={styles.flatList}

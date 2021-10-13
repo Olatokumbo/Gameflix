@@ -2,6 +2,7 @@ import { View, Image, StyleSheet, Text } from "react-native";
 import React from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import gamePoster from "../assets/gamePoster.jpg";
+import getRatings from "../utils/getRatings";
 
 export function PosterCard({ data }) {
   return (
@@ -15,7 +16,7 @@ export function PosterCard({ data }) {
         <Text style={styles.title}>{data.title}</Text>
         <View style={styles.ratingsContainer}>
           <FontAwesome name="star" color="#FBC53A" size={15} />
-          <Text style={styles.ratings}>{data.ratings}</Text>
+          <Text style={styles.ratings}>{data && getRatings(data.reviews)}</Text>
         </View>
       </View>
     </View>
@@ -48,6 +49,8 @@ const styles = StyleSheet.create({
     aspectRatio: 2 / 3,
   },
   title: {
+    flex: 1,
+    flexWrap: "wrap",
     color: "white",
     fontSize: 15,
     fontWeight: "bold",
