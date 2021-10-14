@@ -19,6 +19,9 @@ export default function GameRow({ navigation, genre, refreshing }) {
       setGames(data);
     };
     fetchData();
+    return () => {
+      setGames([]);
+    };
   }, [refreshing]);
   return (
     <View style={styles.gameRow}>

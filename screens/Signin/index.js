@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import {
   Text,
@@ -16,8 +16,11 @@ import {
 import bgImage from "../../assets/bg.jpg";
 import logo from "../../assets/logo_small.png";
 import styles from "./styles";
+import {AppContext} from "../../contexts/AppContext";
 
 export default function Signin({ navigation }) {
+  const data = useContext(AppContext);
+  console.log(data);  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   return (

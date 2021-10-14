@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 
 export default function ReviewPortal({ visible, hideDialog, id, setReviews }) {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
   const userId = "6161cd0041ff536cf19ad1e3";
 
@@ -50,6 +50,7 @@ export default function ReviewPortal({ visible, hideDialog, id, setReviews }) {
           {/* <Paragraph>Please enter your ratings </Paragraph> */}
           <Rating
             showRating
+            minValue={1}
             imageSize={20}
             onFinishRating={(e) => setRating(e)}
             style={{ paddingVertical: 10 }}

@@ -1,28 +1,17 @@
-import {
-  View,
-  Image,
-  Text,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-  RefreshControl,
-} from "react-native";
-import React, { useEffect, useState, useCallback } from "react";
+import { View, Image, ScrollView, RefreshControl } from "react-native";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import axios from "axios";
-
 import mainPoster from "../../assets/mainPoster1.jpg";
-import gamePoster from "../../assets/gamePoster.jpg";
-import { PosterCard } from "../../components/PosterCard";
-
 import styles from "./styles";
 import GameRow from "../../components/GameRow";
+import { AppContext } from "../../contexts/AppContext";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, ...rest }) {
+  const [isLoggedIn, setIsLoggedIn] = useContext(AppContext);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -66,12 +55,6 @@ export default function Home({ navigation }) {
               genre="Adventure"
               refreshing={refreshing}
             />
-            {/* <Text style={styles.headerText}>Latest Games</Text>
-            <FlatList
-              data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-              renderItem={() => <PosterCard />}
-              horizontal
-            /> */}
           </View>
         </View>
       </View>
