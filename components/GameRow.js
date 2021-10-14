@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { PosterCard } from "./PosterCard";
 
-export default function GameRow({ navigation, genre }) {
+export default function GameRow({ navigation, genre, refreshing }) {
   const [games, setGames] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +19,7 @@ export default function GameRow({ navigation, genre }) {
       setGames(data);
     };
     fetchData();
-  }, []);
+  }, [refreshing]);
   return (
     <View style={styles.gameRow}>
       <Text style={styles.headerText}>{genre} Games</Text>

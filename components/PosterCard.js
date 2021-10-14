@@ -17,6 +17,7 @@ export function PosterCard({ data }) {
         <View style={styles.ratingsContainer}>
           <FontAwesome name="star" color="#FBC53A" size={15} />
           <Text style={styles.ratings}>{data && getRatings(data.reviews)}</Text>
+          <Text style={styles.reviewNumber}>({data.reviews.length})</Text>
         </View>
       </View>
     </View>
@@ -53,6 +54,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     color: "white",
     fontSize: 15,
+    fontWeight: "bold",
+  },
+  reviewNumber: {
+    color: "#9b9b9b",
     fontWeight: "bold",
   },
 });

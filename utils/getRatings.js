@@ -3,7 +3,7 @@ const getRatings = (array) => {
   array.forEach((element) => {
     finalRating += element.rating;
   });
-  return finalRating / array.length || 0;
+  return (finalRating / array.length || 0).toFixed(1);
 };
 
 export default getRatings;

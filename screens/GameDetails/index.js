@@ -3,24 +3,18 @@ import { View, Image, Text, TouchableOpacity, FlatList } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Comment from "../../components/Comment";
 import mainPoster from "../../assets/defaultcover.png";
-import {
-  Button,
-  Paragraph,
-  Dialog,
-  Portal,
-  Provider,
-  TextInput,
-} from "react-native-paper";
-import { Rating } from "react-native-elements";
+import { Provider } from "react-native-paper";
 import axios from "axios";
 import styles from "./styles";
 
 import logo from "../../assets/glogo.png";
 import getRatings from "../../utils/getRatings";
+import ReviewPortal from "../../components/ReviewPortal";
 export default function GameDetails({ route, navigation }) {
   const id = route.params.id;
   const [gameDetails, setGameDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -31,6 +25,7 @@ export default function GameDetails({ route, navigation }) {
       .get(`http://192.168.137.1:8000/game/${id}`)
       .then((response) => {
         setGameDetails(response.data);
+        setReviews(response.data.reviews);
         setLoading(false);
       })
       .catch((err) => {
@@ -70,44 +65,23 @@ export default function GameDetails({ route, navigation }) {
             <Text style={styles.addReviewText}>Add Review</Text>
           </TouchableOpacity>
           <Text style={styles.reviewHeader}>
-            {gameDetails?.reviews &&
-              (gameDetails?.reviews.length > 0
-                ? gameDetails?.reviews.length
-                : "No")}{" "}
-            Review(s)
+            {reviews && (reviews.length > 0 ? reviews.length : "No")} Review(s)
           </Text>
         </View>
         <FlatList
           // style={styles.flatList}
-          data={gameDetails.reviews}
+          data={reviews}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => <Comment data={item} />}
+          refreshing={false}
+          // refreshControl={()=>console.log("REFRESHING")}
         />
-        <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog}>
-            <Dialog.Title>Add Review</Dialog.Title>
-            <Dialog.Content>
-              {/* <Paragraph>Please enter your ratings </Paragraph> */}
-              <Rating
-                showRating
-                imageSize={20}
-                // onFinishRating={(e)=>console.log(e)}
-                style={{ paddingVertical: 10 }}
-              />
-              <TextInput
-                label="Comment"
-                multiline
-                numberOfLines={7}
-                // value={text}
-                // onChangeText={(text) => setText(text)}
-              />
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={hideDialog}>Cancel</Button>
-              <Button onPress={hideDialog}>Done</Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        <ReviewPortal
+          visible={visible}
+          hideDialog={hideDialog}
+          id={id}
+          setReviews={setReviews}
+        />
       </View>
     </Provider>
   );

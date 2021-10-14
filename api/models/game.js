@@ -14,7 +14,6 @@ const GameSchema = new mongoose.Schema({
   genre: { type: String, required: true },
   posterURL: { type: String, required: true },
   coverURL: { type: String, required: true },
-  ratings: { type: Number, required: true },
   reviews: { type: [ReviewSchema], required: true },
 });
 

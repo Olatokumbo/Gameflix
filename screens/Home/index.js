@@ -5,8 +5,9 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
 
@@ -16,17 +17,29 @@ import { PosterCard } from "../../components/PosterCard";
 
 import styles from "./styles";
 import GameRow from "../../components/GameRow";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default function Home({ navigation }) {
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     let data = await fetch("http://192.168.137.1:8000/game/list/shooter");
-  //     data = await data.json();
-  //     console.log(data[0].title);
-  //   };
-  //   fetchData();
-  // }, [navigation]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   return (
-    <ScrollView style={{ backgroundColor: "black" }}>
+    <ScrollView
+      style={{ backgroundColor: "black" }}
+      refreshControl={
+        <RefreshControl
+          progressViewOffset={60}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <View style={styles.main}>
         <View style={{ position: "relative" }}>
           <Image
@@ -43,8 +56,16 @@ export default function Home({ navigation }) {
 
         <View style={styles.content}>
           <View style={{ paddingTop: 5 }}>
-            <GameRow navigation={navigation} genre="Shooter" />
-            <GameRow navigation={navigation} genre="Adventure" />
+            <GameRow
+              navigation={navigation}
+              genre="Shooter"
+              refreshing={refreshing}
+            />
+            <GameRow
+              navigation={navigation}
+              genre="Adventure"
+              refreshing={refreshing}
+            />
             {/* <Text style={styles.headerText}>Latest Games</Text>
             <FlatList
               data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}

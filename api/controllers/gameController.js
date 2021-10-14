@@ -10,7 +10,6 @@ const addGame = (req, res) => {
     genre,
     posterURL,
     coverURL,
-    ratings,
     reviews: [],
   });
 
