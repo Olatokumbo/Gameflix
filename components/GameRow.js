@@ -17,7 +17,7 @@ export default function GameRow({ navigation, genre, refreshing, token }) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${token}`,
           },
         }
       );

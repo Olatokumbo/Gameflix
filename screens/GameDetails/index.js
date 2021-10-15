@@ -86,6 +86,7 @@ export default function GameDetails({ route, navigation }) {
           visible={visible}
           hideDialog={hideDialog}
           id={id}
+          token={token}
           setReviews={setReviews}
         />
       </View>

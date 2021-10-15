@@ -47,6 +47,7 @@ const signin = (req, res) => {
           jwt.sign(
             sessionizeUser(user._doc),
             process.env.SECRET_KEY,
+            //{ expiresIn: "1h" },
             (err, token) => {
               if (!err)
                 res.status(201).json({ ...sessionizeUser(user._doc), token });

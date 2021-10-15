@@ -1,3 +1,3 @@
 exports.sessionizeUser  = (user) => {
-    return {user_Id: user._id, email: user.email}
+    return {user_id: user._id, username: user.username}
 }

@@ -16,6 +16,11 @@ const getUserInfo = (req, res) => {
     });
 };
 
+const getUserInfoByToken = (req, res) => {
+  return res.status(200).json(req.userData);
+};
+
 module.exports = {
   getUserInfo,
+  getUserInfoByToken,
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Alert } from "react-native";
 import { Rating } from "react-native-elements";
 import {
@@ -9,21 +9,35 @@ import {
   TextInput,
 } from "react-native-paper";
 import axios from "axios";
+import { AppContext } from "../contexts/AppContext";
 
-export default function ReviewPortal({ visible, hideDialog, id, setReviews }) {
+export default function ReviewPortal({
+  visible,
+  hideDialog,
+  id,
+  setReviews,
+  token,
+}) {
   const [rating, setRating] = useState(1);
   const [comment, setComment] = useState("");
-  const userId = "6161cd0041ff536cf19ad1e3";
-
+  const [_a, _b, userId] = useContext(AppContext);
   const postComment = () => {
     axios
-      .post(`http://192.168.137.1:8000/review/${id}/add`, {
-        userId,
-        rating,
-        comment,
-      })
+      .post(
+        `http://192.168.137.1:8000/review/${id}/add`,
+        {
+          userId,
+          rating,
+          comment,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((data) => {
-        console.log(data);
         setRating(0);
         setComment("");
         setReviews((prevReviews) => [
