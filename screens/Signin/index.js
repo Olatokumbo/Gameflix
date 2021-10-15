@@ -16,13 +16,42 @@ import {
 import bgImage from "../../assets/bg.jpg";
 import logo from "../../assets/logo_small.png";
 import styles from "./styles";
-import {AppContext} from "../../contexts/AppContext";
+import { AppContext } from "../../contexts/AppContext";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 export default function Signin({ navigation }) {
-  const data = useContext(AppContext);
-  console.log(data);  
+  const [_isLoggedIn, setIsLoggedIn] = useContext(AppContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const submit = () => {
+    axios
+      .post(
+        "http://192.168.137.1:8000/auth/signin",
+        { username, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        //setToken(response.data.token);
+        save("token", response.data.token);
+        setIsLoggedIn(true);
+        navigation.push("Root");
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert(err.response.data.message);
+      });
+  };
+
+  const save = async (key, value) => {
+    await SecureStore.setItemAsync(key, value);
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -57,11 +86,7 @@ export default function Signin({ navigation }) {
                   onChangeText={setPassword}
                   value={password}
                 />
-                <Button
-                  title="Sign in"
-                  color="#F12424"
-                  onPress={() => navigation.push("Root")}
-                />
+                <Button title="Sign in" color="#F12424" onPress={submit} />
                 <View
                   style={{
                     flexDirection: "row",

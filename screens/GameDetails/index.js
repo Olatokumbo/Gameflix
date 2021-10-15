@@ -12,6 +12,7 @@ import getRatings from "../../utils/getRatings";
 import ReviewPortal from "../../components/ReviewPortal";
 export default function GameDetails({ route, navigation }) {
   const id = route.params.id;
+  const token = route.params.token;
   const [gameDetails, setGameDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -22,7 +23,12 @@ export default function GameDetails({ route, navigation }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://192.168.137.1:8000/game/${id}`)
+      .get(`http://192.168.137.1:8000/game/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setGameDetails(response.data);
         setReviews(response.data.reviews);

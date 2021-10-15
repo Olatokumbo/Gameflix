@@ -5,14 +5,25 @@ import mainPoster from "../../assets/mainPoster1.jpg";
 import styles from "./styles";
 import GameRow from "../../components/GameRow";
 import { AppContext } from "../../contexts/AppContext";
+import * as SecureStore from "expo-secure-store";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-export default function Home({ navigation, ...rest }) {
-  const [isLoggedIn, setIsLoggedIn] = useContext(AppContext);
+export default function Home({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const getValueFor = async (key) => {
+      let result = await SecureStore.getItemAsync(key);
+      if (result) {
+        setToken(result);
+      }
+    };
+    getValueFor("token");
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -45,16 +56,23 @@ export default function Home({ navigation, ...rest }) {
 
         <View style={styles.content}>
           <View style={{ paddingTop: 5 }}>
-            <GameRow
-              navigation={navigation}
-              genre="Shooter"
-              refreshing={refreshing}
-            />
-            <GameRow
-              navigation={navigation}
-              genre="Adventure"
-              refreshing={refreshing}
-            />
+            {token && (
+              <>
+                <GameRow
+                  navigation={navigation}
+                  genre="Shooter"
+                  refreshing={refreshing}
+                  token={token}
+                />
+
+                <GameRow
+                  navigation={navigation}
+                  genre="Adventure"
+                  refreshing={refreshing}
+                  token={token}
+                />
+              </>
+            )}
           </View>
         </View>
       </View>
