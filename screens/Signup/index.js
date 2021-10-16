@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import {
   Text,
@@ -15,13 +15,48 @@ import {
 
 import bgImage from "../../assets/bg.jpg";
 import logo from "../../assets/logo_small.png";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
+import { AppContext } from "../../contexts/AppContext";
 import styles from "./styles";
 
 export default function Signup({ navigation }) {
+  const [_isLoggedIn, setIsLoggedIn] = useContext(AppContext);
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
+
+  //
+
+  const submit = () => {
+    axios
+      .post(
+        "http://192.168.137.1:8000/auth/signup",
+        { email, username, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        //setToken(response.data.token);
+        save("token", response.data.token);
+        setIsLoggedIn(true);
+        navigation.push("Root");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data.message);
+      });
+  };
+
+  const save = async (key, value) => {
+    await SecureStore.setItemAsync(key, value);
+  };
+  //
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -74,11 +109,10 @@ export default function Signup({ navigation }) {
                   value={cPassword}
                 />
                 <Button
+                  disabled={!(username && (password === cPassword) && (password.length >3)&&  email)}
                   title="Sign up"
                   color="#F12424"
-                  onPress={() =>
-                    Alert.alert("Button with adjusted color pressed")
-                  }
+                  onPress={submit}
                 />
                 <View
                   style={{

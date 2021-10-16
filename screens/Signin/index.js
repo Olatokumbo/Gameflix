@@ -10,7 +10,6 @@ import {
   Keyboard,
   Image,
   Button,
-  Alert,
 } from "react-native";
 
 import bgImage from "../../assets/bg.jpg";
@@ -44,7 +43,7 @@ export default function Signin({ navigation }) {
       })
       .catch((err) => {
         console.log(err);
-        Alert.alert(err.response.data.message);
+        alert(err.response.data.message);
       });
   };
 
@@ -86,7 +85,7 @@ export default function Signin({ navigation }) {
                   onChangeText={setPassword}
                   value={password}
                 />
-                <Button title="Sign in" color="#F12424" onPress={submit} />
+                <Button disabled={!(username && password)} title="Sign in" color="#F12424" onPress={submit} />
                 <View
                   style={{
                     flexDirection: "row",

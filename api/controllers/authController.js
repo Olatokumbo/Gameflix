@@ -38,7 +38,7 @@ const signup = (req, res) => {
 //
 const signin = (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body);
+  //console.log(req.body);
   User.findOne({ username }, (err, user) => {
     if (user) {
       user.comparePassword(password, function (err, isMatch) {

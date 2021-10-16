@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", function (next) {
-  console.log("saving...");
+  //console.log("saving...");
   var user = this;
   // Verifies whether the email exists already
   User.find({ email: user.email }, function (err, docs) {
@@ -31,7 +31,7 @@ UserSchema.pre("save", function (next) {
         });
       });
     } else {
-      console.log("user exists: ", user.email);
+      //console.log("user exists: ", user.email);
       next(new Error("User Already exists!"));
     }
   });
