@@ -6,6 +6,7 @@ const ReviewSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   rating: { type: Number, required: true },
   comment: { type: String, required: true },
+  location: { type: Object, required: true },
   date: { type: Date, required: true },
 });
 

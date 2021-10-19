@@ -1,4 +1,5 @@
 const Game = require("../models/game");
+const db = require("../config/database");
 const jwt = require("jsonwebtoken");
 const { sessionizeUser } = require("../utils/helper");
 

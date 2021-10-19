@@ -10,6 +10,7 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 import { AppContext } from "../contexts/AppContext";
+import useLocation from "../hooks/useLocation";
 
 export default function ReviewPortal({
   visible,
@@ -18,9 +19,10 @@ export default function ReviewPortal({
   setReviews,
   token,
 }) {
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(3);
   const [comment, setComment] = useState("");
   const [_a, _b, userId] = useContext(AppContext);
+  const { location, errorMsg } = useLocation();
   const postComment = () => {
     axios
       .post(
@@ -29,6 +31,7 @@ export default function ReviewPortal({
           userId,
           rating,
           comment,
+          location,
         },
         {
           headers: {
@@ -63,6 +66,7 @@ export default function ReviewPortal({
         <Dialog.Content>
           {/* <Paragraph>Please enter your ratings </Paragraph> */}
           <Rating
+            defaultRating={4}
             showRating
             minValue={1}
             imageSize={20}
