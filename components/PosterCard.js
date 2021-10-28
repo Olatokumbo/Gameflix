@@ -16,8 +16,10 @@ export function PosterCard({ data }) {
         <Text style={styles.title}>{data.title}</Text>
         <View style={styles.ratingsContainer}>
           <FontAwesome name="star" color="#FBC53A" size={15} />
-          <Text style={styles.ratings}>{data && getRatings(data.reviews)}</Text>
-          <Text style={styles.reviewNumber}>({data.reviews.length})</Text>
+          <Text style={styles.ratings}>
+            {data.avgRatings === null ? 0 : data.avgRatings}
+          </Text>
+          <Text style={styles.reviewNumber}>({data.reviews})</Text>
         </View>
       </View>
     </View>

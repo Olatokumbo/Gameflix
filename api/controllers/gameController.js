@@ -1,11 +1,9 @@
 const Game = require("../models/game");
 const db = require("../config/database");
-const jwt = require("jsonwebtoken");
-const { sessionizeUser } = require("../utils/helper");
 
 //////ADD GAMES
 const addGame = (req, res) => {
-  const { title, genre, posterURL, coverURL, ratings } = req.body;
+  const { title, genre, posterURL, coverURL } = req.body;
   const newGame = new Game({
     title,
     genre,
@@ -20,13 +18,27 @@ const addGame = (req, res) => {
 };
 
 //////LIST GAMES BY GENRE
-const genreList = (req, res) => {
+const genreList = async (req, res) => {
   const { genre } = req.params;
 
-  Game.find({ genre }, (err, list) => {
-    if (err) throw err;
-    res.status(200).json(list);
-  });
+  const data = await db
+    .collection("games")
+    .aggregate([
+      {
+        $match: { genre },
+      },
+      {
+        $project: {
+          _id: "$_id",
+          title: "$title",
+          posterURL: "$posterURL",
+          avgRatings: { $avg: "$reviews.rating" },
+          reviews: { $size: "$reviews" },
+        },
+      },
+    ])
+    .toArray();
+  res.status(200).json(data);
 };
 
 //////GET GAME INFO
