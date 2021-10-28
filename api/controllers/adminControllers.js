@@ -13,7 +13,7 @@ const adminLogin = (req, res) => {
       if (user.password === password) {
         jwt.sign(
           sessionizeUser(user._doc),
-          process.env.SECRET_KEY,
+          process.env.ADMIN_SECRET_KEY,
           //{ expiresIn: "1h" },
           (err, token) => {
             if (!err)
@@ -49,8 +49,13 @@ const gameInfo = (req, res) => {
     });
 };
 
+const getAdminInfoByToken = (req, res) => {
+  return res.status(200).json(req.userData);
+};
+
 module.exports = {
   adminLogin,
   gameInfo,
   gameList,
+  getAdminInfoByToken
 };
