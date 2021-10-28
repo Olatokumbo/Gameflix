@@ -21,14 +21,14 @@ export default function ReviewPortal({
 }) {
   const [rating, setRating] = useState(3);
   const [comment, setComment] = useState("");
-  const [_a, _b, userId] = useContext(AppContext);
+  const [_a, _b, username] = useContext(AppContext);
   const { location, errorMsg } = useLocation();
   const postComment = () => {
     axios
       .post(
         `http://192.168.137.1:8000/review/${id}/add`,
         {
-          userId,
+          username,
           rating,
           comment,
           location,
@@ -47,7 +47,7 @@ export default function ReviewPortal({
           ...prevReviews,
           {
             _id: new Date().getMilliseconds().toString(),
-            userId,
+            username,
             rating,
             comment,
           },

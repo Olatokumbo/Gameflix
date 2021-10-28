@@ -20,7 +20,7 @@ export default function BottomTabNavigation() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Search"
         component={Search}
         options={{
@@ -29,7 +29,7 @@ export default function BottomTabNavigation() {
             <FontAwesome name="search" color={color} size={22} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={Profile}

@@ -2,40 +2,23 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Avatar } from "react-native-paper";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import profile from "../assets/profile.jpg";
-import axios from "axios";
 
 export default function Comment({ data }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`http://192.168.137.1:8000/user/${data.userId}`)
-      .then((response) => {
-        setUser(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        navigation.goBack();
-      });
-  }, [data]);
   return (
     <View style={styles.comment}>
-      {(!user) ? (
+      {!data ? (
         <Avatar.Icon size={50} icon="account-circle" />
       ) : (
         <Avatar.Image
           size={50}
           source={{
-            uri: `https://eu.ui-avatars.com/api/?name=${user.username}`,
+            uri: `https://eu.ui-avatars.com/api/?name=${data.username}`,
           }}
         />
       )}
       <View style={styles.mainContent}>
         <View style={styles.commentHeader}>
-          <Text style={styles.name}>{user && user.username}</Text>
+          <Text style={styles.name}>{data.username}</Text>
           <FontAwesome name="star" color="#FBC53A" size={15} />
           <Text style={styles.ratings}>{data.rating}</Text>
         </View>

@@ -2,7 +2,7 @@ const Game = require("../models/game");
 
 const addReview = (req, res) => {
   const { id } = req.params;
-  const { userId, comment, rating, location } = req.body;
+  const { username, comment, rating, location } = req.body;
   Game.updateOne(
     { _id: id },
     {
@@ -10,7 +10,7 @@ const addReview = (req, res) => {
         reviews: {
           $each: [
             {
-              userId,
+              username,
               comment,
               rating,
               location,

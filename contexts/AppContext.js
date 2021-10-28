@@ -6,7 +6,7 @@ export const AppContext = createContext();
 
 export const AppProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState(null);
   useEffect(() => {
     const getValueFor = async (key) => {
       try {
@@ -18,7 +18,7 @@ export const AppProvider = (props) => {
             },
           });
           if (response.data) {
-            setUserId(response.data.user_id);
+            setUsername(response.data.username);
             setIsLoggedIn(true);
           }
         }
@@ -30,7 +30,9 @@ export const AppProvider = (props) => {
   }, []);
 
   return (
-    <AppContext.Provider value={[isLoggedIn, setIsLoggedIn, userId, setUserId]}>
+    <AppContext.Provider
+      value={[isLoggedIn, setIsLoggedIn, username, setUsername]}
+    >
       {props.children}
     </AppContext.Provider>
   );

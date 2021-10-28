@@ -78,7 +78,9 @@ export default function GameDetails({ route, navigation }) {
           // style={styles.flatList}
           data={reviews}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <Comment data={item} />}
+          renderItem={({ item }) => (
+            <Comment data={item} navigation={navigation} />
+          )}
           refreshing={false}
           // refreshControl={()=>console.log("REFRESHING")}
         />
