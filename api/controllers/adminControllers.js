@@ -2,6 +2,7 @@ const Admin = require("../models/admin");
 const Game = require("../models/game");
 const { sessionizeUser } = require("../utils/helper");
 const jwt = require("jsonwebtoken");
+const { uploadFile, getFileStream } = require("../s3");
 require("dotenv").config();
 
 const adminLogin = (req, res) => {
@@ -53,9 +54,29 @@ const getAdminInfoByToken = (req, res) => {
   return res.status(200).json(req.userData);
 };
 
+const uploadImage = async (req, res) => {
+  console.log(req.body);
+  console.log(req.files);
+  const files = await uploadFile(req.files);
+  console.log(files);
+
+  console.log("Done");
+};
+
+const getImage = (req, res) => {
+  try {
+    const readStream = getFileStream(req.params.key);
+    readStream.pipe(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   adminLogin,
   gameInfo,
   gameList,
-  getAdminInfoByToken
+  getAdminInfoByToken,
+  uploadImage,
+  getImage,
 };
