@@ -3,6 +3,8 @@ const Game = require("../models/game");
 const { sessionizeUser } = require("../utils/helper");
 const jwt = require("jsonwebtoken");
 const { uploadFile, getFileStream } = require("../s3");
+const path = require("path")
+const removeDir = require("../utils/removeDir");
 require("dotenv").config();
 
 const adminLogin = (req, res) => {
@@ -55,12 +57,22 @@ const getAdminInfoByToken = (req, res) => {
 };
 
 const uploadImage = async (req, res) => {
-  console.log(req.body);
-  console.log(req.files);
+  const { title, genre } = req.body;
   const files = await uploadFile(req.files);
-  console.log(files);
 
-  console.log("Done");
+  const newGame = new Game({
+    title,
+    genre,
+    posterURL: files[1].key,
+    coverURL: files[0].key,
+    reviews: [],
+  });
+
+  newGame.save().then((game) => {
+    res.status(200).json(game);
+    const pathToDir = path.join(__dirname, "..", "uploads");
+    removeDir(pathToDir);
+  });
 };
 
 const getImage = (req, res) => {

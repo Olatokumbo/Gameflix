@@ -1,5 +1,6 @@
 const Game = require("../models/game");
 const db = require("../config/database");
+const { getFileStream } = require("../s3");
 
 //////ADD GAMES
 const addGame = (req, res) => {
@@ -53,8 +54,18 @@ const gameInfo = (req, res) => {
     });
 };
 
+const getImage = (req, res) => {
+  try {
+    const readStream = getFileStream(req.params.key);
+    readStream.pipe(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   addGame,
   genreList,
   gameInfo,
+  getImage,
 };
