@@ -3,7 +3,7 @@ const Game = require("../models/game");
 const { sessionizeUser } = require("../utils/helper");
 const jwt = require("jsonwebtoken");
 const { uploadFile, getFileStream } = require("../s3");
-const path = require("path")
+const path = require("path");
 const removeDir = require("../utils/removeDir");
 require("dotenv").config();
 
@@ -56,6 +56,7 @@ const getAdminInfoByToken = (req, res) => {
   return res.status(200).json(req.userData);
 };
 
+// Handling Game Info Upload
 const uploadImage = async (req, res) => {
   const { title, genre } = req.body;
   const files = await uploadFile(req.files);
@@ -75,6 +76,7 @@ const uploadImage = async (req, res) => {
   });
 };
 
+// Fetching Image from AWS
 const getImage = (req, res) => {
   try {
     const readStream = getFileStream(req.params.key);
@@ -84,6 +86,24 @@ const getImage = (req, res) => {
   }
 };
 
+// Editing Game Info
+const editGame = (req, res) => {
+  const { title, genre } = req.body;
+  const { id } = req.params;
+  Game.findByIdAndUpdate(id, { title, genre }, (err, game) => {
+    if (err) return res.status(404).json({ message: err.message });
+    return res.status(200).json(game);
+  });
+};
+
+const deleteGame = (req, res) => {
+  const { id } = req.params;
+  Game.findByIdAndDelete(id, (err, game) => {
+    if (err) return res.status(404).json({ message: err.message });
+    return res.status(200).json(game);
+  });
+};
+
 module.exports = {
   adminLogin,
   gameInfo,
@@ -91,4 +111,6 @@ module.exports = {
   getAdminInfoByToken,
   uploadImage,
   getImage,
+  editGame,
+  deleteGame,
 };

@@ -8,6 +8,8 @@ router.get("/", verifyTokenAdmin, adminController.getAdminInfoByToken);
 router.post("/signin", adminController.adminLogin);
 router.get("/game/list", verifyTokenAdmin, adminController.gameList);
 router.get("/game/:id", verifyTokenAdmin, adminController.gameInfo);
+router.post("/game/:id/edit", verifyTokenAdmin, adminController.editGame);
+router.post("/game/:id/delete", verifyTokenAdmin, adminController.deleteGame);
 router.get("/game/image/:key", adminController.getImage);
 router.post(
   "/game/upload",
