@@ -11,6 +11,7 @@ router.get("/game/list", verifyTokenAdmin, adminController.gameList);
 router.get("/game/:id", verifyTokenAdmin, adminController.gameInfo);
 router.post("/game/:id/edit", verifyTokenAdmin, adminController.editGame);
 router.post("/game/:id/delete", verifyTokenAdmin, adminController.deleteGame);
+router.post("/game/:id/review/delete", verifyTokenAdmin, adminController.deleteReview);
 router.get("/game/image/:key", adminController.getImage);
 router.post(
   "/game/upload",

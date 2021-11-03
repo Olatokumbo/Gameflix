@@ -122,6 +122,27 @@ const deleteGame = (req, res) => {
   });
 };
 
+const deleteReview = (req, res) => {
+  const { reviewId } = req.body;
+  const { id } = req.params;
+  console.log(reviewId, id);
+  Game.findByIdAndUpdate(
+    id,
+    {
+      $pull: {
+        reviews: {
+          _id: reviewId,
+        },
+      },
+    },
+    { new: true },
+    (err, game) => {
+      if (err) return res.status(404).json({ message: err.message });
+      return res.status(200).json(game);
+    }
+  );
+};
+
 module.exports = {
   adminLogin,
   getPassword,
@@ -132,4 +153,5 @@ module.exports = {
   getImage,
   editGame,
   deleteGame,
+  deleteReview,
 };

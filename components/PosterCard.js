@@ -9,7 +9,9 @@ export function PosterCard({ data }) {
     <View style={styles.posterCard}>
       <Image
         key={new Date()}
-        source={{ uri: data.posterURL }}
+        source={{
+          uri: `http://192.168.137.1:8000/game/image/${data.posterURL}`,
+        }}
         style={styles.poster}
       />
       <View style={styles.bottomCard}>

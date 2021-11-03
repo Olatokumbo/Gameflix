@@ -49,7 +49,9 @@ export default function GameDetails({ route, navigation }) {
           />
         ) : (
           <Image
-            source={{ uri: gameDetails.coverURL }}
+            source={{
+              uri: `http://192.168.137.1:8000/game/image/${gameDetails.coverURL}`,
+            }}
             style={styles.mainPoster}
             resizeMode="cover"
           />
