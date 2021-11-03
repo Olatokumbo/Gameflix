@@ -5,27 +5,45 @@ const jwt = require("jsonwebtoken");
 const { uploadFile, getFileStream } = require("../s3");
 const path = require("path");
 const removeDir = require("../utils/removeDir");
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 const adminLogin = (req, res) => {
   const { username, password } = req.body;
 
   Admin.findOne({ username }, (err, user) => {
-    if (err) throw err;
     if (user) {
-      if (user.password === password) {
-        jwt.sign(
-          sessionizeUser(user._doc),
-          process.env.ADMIN_SECRET_KEY,
-          //{ expiresIn: "1h" },
-          (err, token) => {
-            if (!err)
-              res.status(201).json({ ...sessionizeUser(user._doc), token });
-            else res.status(502).json({ message: "There has been an error" });
-          }
-        );
-      } else res.status(401).send({ message: "Invalid Login Credentials" });
+      user.comparePassword(password, function (err, isMatch) {
+        if (err) throw err;
+        if (isMatch) {
+          jwt.sign(
+            sessionizeUser(user._doc),
+            process.env.ADMIN_SECRET_KEY,
+            //{ expiresIn: "1h" },
+            (err, token) => {
+              if (!err)
+                res.status(201).json({ ...sessionizeUser(user._doc), token });
+              else res.status(502).json({ message: "There has been an error" });
+            }
+          );
+        } else res.status(401).send({ message: "Invalid Login Credentials" });
+      });
     } else res.status(401).send({ message: "User Account does not Exist" });
+  });
+};
+
+const getPassword = (req, res) => {
+  const { password } = req.body;
+  // generate a salt
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+
+    // hash the password using our new salt
+    bcrypt.hash(password, salt, function (err, hash) {
+      if (err) return res.status(404).json({ message: err.message });
+      // override the cleartext password with the hashed one
+      return res.status(200).json(hash);
+    });
   });
 };
 
@@ -106,6 +124,7 @@ const deleteGame = (req, res) => {
 
 module.exports = {
   adminLogin,
+  getPassword,
   gameInfo,
   gameList,
   getAdminInfoByToken,

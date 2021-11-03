@@ -6,6 +6,7 @@ const upload = multer({ dest: "uploads/" }); //{ dest: "uploads/" }//
 
 router.get("/", verifyTokenAdmin, adminController.getAdminInfoByToken);
 router.post("/signin", adminController.adminLogin);
+// router.post("/password", adminController.getPassword);
 router.get("/game/list", verifyTokenAdmin, adminController.gameList);
 router.get("/game/:id", verifyTokenAdmin, adminController.gameInfo);
 router.post("/game/:id/edit", verifyTokenAdmin, adminController.editGame);
