@@ -23,7 +23,7 @@ export default function GameDetails({ route, navigation }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://192.168.137.1:8000/game/${id}`, {
+      .get(`https://gameflix1.herokuapp.com/game/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ export default function GameDetails({ route, navigation }) {
         ) : (
           <Image
             source={{
-              uri: `http://192.168.137.1:8000/game/image/${gameDetails.coverURL}`,
+              uri: `https://gameflix1.herokuapp.com/game/image/${gameDetails.coverURL}`,
             }}
             style={styles.mainPoster}
             resizeMode="cover"

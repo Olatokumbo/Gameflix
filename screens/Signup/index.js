@@ -33,7 +33,7 @@ export default function Signup({ navigation }) {
   const submit = () => {
     axios
       .post(
-        "http://192.168.137.1:8000/auth/signup",
+        "https://gameflix1.herokuapp.com/auth/signup",
         { email, username, password },
         {
           headers: {

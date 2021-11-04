@@ -13,7 +13,7 @@ export default function GameRow({ navigation, genre, refreshing, token }) {
   useEffect(() => {
     const fetchData = async () => {
       let data = await fetch(
-        `http://192.168.137.1:8000/game/list/${genre.toLowerCase()}`,
+        `https://gameflix1.herokuapp.com/game/list/${genre.toLowerCase()}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export function PosterCard({ data }) {
       <Image
         key={new Date()}
         source={{
-          uri: `http://192.168.137.1:8000/game/image/${data.posterURL}`,
+          uri: `https://gameflix1.herokuapp.com/game/image/${data.posterURL}`,
         }}
         style={styles.poster}
       />

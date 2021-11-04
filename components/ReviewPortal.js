@@ -26,7 +26,7 @@ export default function ReviewPortal({
   const postComment = () => {
     axios
       .post(
-        `http://192.168.137.1:8000/review/${id}/add`,
+        `https://gameflix1.herokuapp.com/review/${id}/add`,
         {
           username,
           rating,

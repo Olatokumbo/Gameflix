@@ -12,7 +12,7 @@ export const AppProvider = (props) => {
       try {
         let token = await SecureStore.getItemAsync(key);
         if (token) {
-          const response = await axios.get("http://192.168.137.1:8000/user", {
+          const response = await axios.get("https://gameflix1.herokuapp.com/user", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

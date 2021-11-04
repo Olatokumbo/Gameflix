@@ -27,7 +27,7 @@ export default function Signin({ navigation }) {
   const submit = () => {
     axios
       .post(
-        "http://192.168.137.1:8000/auth/signin",
+        "https://gameflix1.herokuapp.com/auth/signin",
         { username, password },
         {
           headers: {

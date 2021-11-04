@@ -7,23 +7,29 @@ const useLocation = () => {
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          return;
+        }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location.coords);
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location.coords);
+      } catch (error) {
+        alert(error.message);
+      }
     })();
   }, []);
 
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
+  // let text = "Waiting..";
+  // if (errorMsg) {
+  //   text = errorMsg;
+  // } else if (location) {
+  //   text = JSON.stringify(location);
+  // }
+
+  // console.log(text);
   return {
     location,
     errorMsg,
