@@ -24,40 +24,42 @@ export default function ReviewPortal({
   const [_a, _b, username] = useContext(AppContext);
   const { location, errorMsg } = useLocation();
   const postComment = () => {
-    axios
-      .post(
-        `https://gameflix1.herokuapp.com/review/${id}/add`,
-        {
-          username,
-          rating,
-          comment,
-          location,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((data) => {
-        setRating(0);
-        setComment("");
-        setReviews((prevReviews) => [
-          ...prevReviews,
+    if (location) {
+      axios
+        .post(
+          `https://gameflix1.herokuapp.com/review/${id}/add`,
           {
-            _id: new Date().getMilliseconds().toString(),
             username,
             rating,
             comment,
+            location,
           },
-        ]);
-        hideDialog();
-        Alert.alert("Review Sent!!!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((data) => {
+          setRating(0);
+          setComment("");
+          setReviews((prevReviews) => [
+            ...prevReviews,
+            {
+              _id: new Date().getMilliseconds().toString(),
+              username,
+              rating,
+              comment,
+            },
+          ]);
+          hideDialog();
+          Alert.alert("Review Sent!!!");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else alert("Can post a review until GPS Location is turned on");
   };
   return (
     <Portal>
