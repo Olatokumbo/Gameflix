@@ -17,7 +17,7 @@ export default function GameRow({ navigation, genre, refreshing, token }) {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -31,14 +31,16 @@ export default function GameRow({ navigation, genre, refreshing, token }) {
   }, [refreshing]);
   return (
     <View style={styles.gameRow}>
-      <Text style={styles.headerText}>{genre} Games</Text>
+      {games.length > 1 && <Text style={styles.headerText}>{genre} Games</Text>}
       <FlatList
         data={games}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <TouchableOpacity
             key={index}
-            onPress={() => navigation.navigate("Game Info", { id: item._id, token })}
+            onPress={() =>
+              navigation.navigate("Game Info", { id: item._id, token })
+            }
           >
             <PosterCard data={item} />
           </TouchableOpacity>

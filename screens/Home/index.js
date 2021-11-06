@@ -71,6 +71,24 @@ export default function Home({ navigation }) {
                   refreshing={refreshing}
                   token={token}
                 />
+                <GameRow
+                  navigation={navigation}
+                  genre="Sports"
+                  refreshing={refreshing}
+                  token={token}
+                />
+                <GameRow
+                  navigation={navigation}
+                  genre="Racing"
+                  refreshing={refreshing}
+                  token={token}
+                />
+                <GameRow
+                  navigation={navigation}
+                  genre="Simulation"
+                  refreshing={refreshing}
+                  token={token}
+                />
               </>
             )}
           </View>
